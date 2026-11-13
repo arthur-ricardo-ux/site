@@ -1,0 +1,38 @@
+<svg width="166" height="95" viewBox="0 0 166 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Card Art Design System mobile">
+<g id="Frame 2018779353">
+<g id="Frame 2018779354">
+<g id="Group 626264">
+<g id="hive-logo" filter="url(#filter0_dd_526_3319)">
+<g id="Art logo">
+<g id="Logo Art">
+<g id="Vector">
+<path d="M31.0999 17.4599L57.903 25.8717L52.7314 30.6233L32.6291 24.3144C28.7203 23.0877 23.7735 24.1913 20.7568 26.9631L15.5852 31.7146C12.5684 34.4864 13.2056 37.3424 17.1144 38.5692L30.5159 42.775L42.3883 40.1264L22.2859 33.8176L27.4575 29.066L47.5599 35.3748L42.3883 40.1264L54.2606 37.4778L64.6038 27.9746C67.6206 25.2029 66.9834 22.3468 63.0746 21.1201L42.9723 14.8113L31.0999 17.4599Z" fill="white"/>
+<path d="M95.8741 37.7884L82.4725 33.5825L70.6002 36.2311L84.0017 40.437L95.8741 37.7884Z" fill="white"/>
+<path d="M58.7278 38.8797L48.3846 48.3829L55.0854 50.4858L70.6002 36.2311L58.7278 38.8797Z" fill="white"/>
+<path d="M97.4033 44.6429L90.7025 42.5399L78.8302 45.1885L92.2317 49.3944L87.0601 54.146C84.0434 56.9178 84.6805 59.7738 88.5893 61.0005L101.991 65.2064L113.863 62.5578L93.7609 56.2489L98.9325 51.4974L105.633 53.6003L117.506 50.9517L104.104 46.7458L117.895 34.075L106.023 36.7236L97.4033 44.6429Z" fill="white"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_dd_526_3319" x="-3.87947" y="-3.87947" width="179.231" height="107.854" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="11.6384" dy="11.6384"/>
+<feGaussianBlur stdDeviation="7.75893"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.07 0 0 0 0 0.09 0 0 0 0 0.15 0 0 0 0.16 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_526_3319"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="2.32768" dy="2.32768"/>
+<feGaussianBlur stdDeviation="1.93973"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.07 0 0 0 0 0.09 0 0 0 0 0.15 0 0 0 0.08 0"/>
+<feBlend mode="normal" in2="effect1_dropShadow_526_3319" result="effect2_dropShadow_526_3319"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_526_3319" result="shape"/>
+</filter>
+</defs>
+</svg>

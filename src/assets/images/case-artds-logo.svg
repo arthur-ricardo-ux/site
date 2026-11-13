@@ -1,0 +1,32 @@
+<svg width="239" height="137" viewBox="0 0 239 137" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Card Art Design System">
+<g id="hive-logo" filter="url(#filter0_dd_526_3319)">
+<g id="Art logo">
+<g id="Logo Art">
+<g id="Vector">
+<path d="M44.9508 25.15L83.641 37.2923L76.1758 44.1512L47.1581 35.0444C41.5158 33.2737 34.3751 34.8667 30.0204 38.8677L22.5552 45.7266C18.2006 49.7276 19.1203 53.8503 24.7626 55.6211L44.1077 61.6923L61.2454 57.869L32.2278 48.7622L39.693 41.9033L68.7106 51.0101L61.2454 57.869L78.3832 54.0457L93.3135 40.3279C97.6682 36.3269 96.7484 32.2042 91.1061 30.4335L62.0885 21.3267L44.9508 25.15Z" fill="white"/>
+<path d="M138.452 54.494L119.107 48.4228L101.969 52.2461L121.314 58.3173L138.452 54.494Z" fill="white"/>
+<path d="M84.8315 56.0694L69.9012 69.7872L79.5737 72.8227L101.969 52.2461L84.8315 56.0694Z" fill="white"/>
+<path d="M140.659 64.3884L130.987 61.3528L113.849 65.1761L133.194 71.2473L125.729 78.1062C121.374 82.1072 122.294 86.2299 127.937 88.0007L147.282 94.0718L164.419 90.2486L135.402 81.1418L142.867 74.2829L152.539 77.3185L169.677 73.4952L150.332 67.424L170.239 49.1337L153.101 52.957L140.659 64.3884Z" fill="white"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_dd_526_3319" x="-5.59999" y="-5.6" width="258.719" height="155.688" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="16.8" dy="16.8"/>
+<feGaussianBlur stdDeviation="11.2"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.07 0 0 0 0 0.09 0 0 0 0 0.15 0 0 0 0.16 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_526_3319"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="3.36" dy="3.36"/>
+<feGaussianBlur stdDeviation="2.8"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.07 0 0 0 0 0.09 0 0 0 0 0.15 0 0 0 0.08 0"/>
+<feBlend mode="normal" in2="effect1_dropShadow_526_3319" result="effect2_dropShadow_526_3319"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_526_3319" result="shape"/>
+</filter>
+</defs>
+</svg>

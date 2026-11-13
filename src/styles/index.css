@@ -1,0 +1,375 @@
+@import "tailwindcss";
+
+/*
+ * Tokens extraídos do Figma (arquivo "Start Web Portifólio", frame 190:5257).
+ * - Variáveis do Figma → --color-<grupo>-<nome> (ex.: background/inverse → background-inverse)
+ * - Cores "soltas" usadas no frame → nomes descritivos
+ * - --spacing = 1px: utilitários numéricos mapeiam 1:1 para os px do Figma (p-24 = 24px).
+ *   Seções que precisam manter a composição do frame de 1440 sobrescrevem --spacing
+ *   com um fator fluido (ver .hero-scale).
+ */
+@theme {
+  --spacing: 1px;
+
+  --font-condensed: "Roboto Condensed", "Arial Narrow", sans-serif;
+  --font-archivo: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-oswald: "Oswald", "Arial Narrow", sans-serif;
+
+  /* Figma variables (modo claro; o modo escuro fica em .theme-dark) */
+  --color-background-inverse: #080b12;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f3f4f6;
+  --color-background-tertiary: #e5e7eb;
+  --color-content-primary: #080b12;
+  --color-content-secondary: #374151;
+  --color-content-tertiary: #9ca3af;
+  --color-content-inverse: #ffffff;
+  --color-content-neutral-hard: #1a1a1a;
+  --color-border-primary: #d1d5db;
+  --color-border-secondary: #e5e7eb;
+  --color-accent-highlight: #ecf76d;
+  --color-action-hover-on-dark: rgb(255 255 255 / 0.16);
+  --color-action-hover-on-color: rgb(8 9 10 / 0.16);
+
+  /* Cores aplicadas diretamente no frame */
+  --color-lime: #ecf76d;
+  --color-lime-soft: #e8fa9c;
+  --color-ink: #050505;
+  --color-ink-soft: #111111;
+  --color-graphite: #19191d;
+  --color-silver: #d9d9d9;
+  --color-gray-555: #555555;
+  --color-gray-aaa: #aaaaaa;
+  --color-gray-d0: #d0d0d0;
+
+  /* Acentos do design system (linha do tempo de "Experiência") */
+  --color-accent-blue: #2a89ef;
+  --color-accent-green: #15be78;
+  --color-accent-yellow: #f9ab10;
+  --color-accent-pink: #e82ebf;
+
+  --breakpoint-desk: 90rem; /* 1440px – largura do frame */
+
+  /* Texto circular do selo "Metodologia AI-Frist": uma volta lenta e contínua */
+  --animate-seal-spin: seal-spin 40s linear infinite;
+
+  @keyframes seal-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Loader do MOMENTO 05 (estudo de caso Agreement): 24 estados × 50 ms no protótipo */
+  --animate-loader-spin: loader-spin 1.2s linear infinite;
+
+  @keyframes loader-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/*
+ * Registrado como <length>: o valor é computado onde é declarado (ex.: 100cqw em .hero-scale
+ * resolve contra .page) e herdado já em px — containers internos (@container) não o alteram.
+ */
+@property --spacing {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 1px;
+}
+
+/* Tamanhos de fonte acompanham --spacing para escalar junto com a composição */
+@theme inline {
+  --text-12: calc(var(--spacing) * 12);
+  --text-14: calc(var(--spacing) * 14);
+  --text-15: calc(var(--spacing) * 15);
+  --text-16: calc(var(--spacing) * 16);
+  --text-18: calc(var(--spacing) * 18);
+  --text-20: calc(var(--spacing) * 20);
+  --text-24: calc(var(--spacing) * 24);
+  --text-28: calc(var(--spacing) * 28);
+  --text-32: calc(var(--spacing) * 32);
+  --text-34: calc(var(--spacing) * 34);
+  --text-36: calc(var(--spacing) * 36);
+  --text-38: calc(var(--spacing) * 38);
+  --text-40: calc(var(--spacing) * 40);
+  --text-48: calc(var(--spacing) * 48);
+  --text-52: calc(var(--spacing) * 52);
+  --text-56: calc(var(--spacing) * 56);
+  --text-64: calc(var(--spacing) * 64);
+  --text-72: calc(var(--spacing) * 72);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* âncoras não ficam escondidas sob a topbar fixa (64px) */
+    scroll-padding-top: 64px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+
+  body {
+    background-color: #ffffff;
+    color: var(--color-content-primary);
+    font-family: var(--font-archivo);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+}
+
+@layer components {
+  /* Wrapper da página: referência para unidades cqw (ignora a largura da scrollbar) */
+  .page {
+    container-type: inline-size;
+    overflow-x: clip;
+
+    /* Margem lateral global: 16 (mobile) → 32 (tablet) → até 112 no frame de 1440 */
+    --gutter: 16px;
+
+    @media (width >= 48rem) {
+      --gutter: 32px;
+    }
+
+    @media (width >= 80rem) {
+      --gutter: max(32px, calc((100cqw - 1216px) / 2));
+    }
+  }
+
+  /* Topbar + hero: composição do frame de 1440 escalada proporcionalmente entre 1280–1440 */
+  .hero-scale {
+    @media (width >= 80rem) {
+      --spacing: min(1px, calc(100cqw / 1440));
+    }
+  }
+
+  /* Modo escuro das variáveis (seção "Minha trajetória") */
+  .theme-dark {
+    --color-background-primary: #1b1f24;
+    --color-border-primary: #373e48;
+    --color-content-primary: #ffffff;
+    --color-content-secondary: #9da2aa;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "left" "card" "flex";
+    row-gap: 32px;
+
+    @media (width >= 48rem) {
+      grid-template-columns: minmax(0, 1fr) 340px;
+      grid-template-areas: "head head" "left card" "flex flex";
+      column-gap: 12px;
+      row-gap: 42px;
+    }
+
+    @media (width >= 80rem) {
+      grid-template-columns:
+        calc(var(--spacing) * 500) minmax(0, 1fr)
+        calc(var(--spacing) * 340);
+      grid-template-areas: "head head card" "left flex flex";
+      column-gap: calc(var(--spacing) * 12);
+      row-gap: calc(var(--spacing) * 42);
+    }
+  }
+
+  /* Headline: blocos deslocados como no Figma (offsets em em → escalam com a fonte) */
+  .hero-headline {
+    /* largura do bloco no Figma = 915px para fonte de 96px (≈ 9.53em) */
+    font-size: calc((100cqw - 32px) / 9.6);
+
+    @media (width >= 48rem) {
+      font-size: min(96px, calc((100cqw - 64px) / 9.6));
+    }
+
+    @media (width >= 80rem) {
+      font-size: calc(var(--spacing) * 96);
+    }
+  }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Estados de hover do design system (variantes Hover=on do Figma) */
+@utility hover-overlay-on-color {
+  transition: box-shadow 150ms ease;
+
+  &:hover {
+    box-shadow: inset 0 0 0 999px var(--color-action-hover-on-color);
+  }
+}
+
+/*
+ * Entrada da Hero (ver useHeroIntro). Toda a timeline fica aqui: [data-intro=idle] guarda o estado
+ * inicial (oculto) e [data-intro=run] dispara as animações. Com fill-mode "backwards" cada elemento
+ * volta ao estilo normal ao terminar — nada depende da animação para ficar visível.
+ */
+@layer components {
+  [data-intro] {
+    --intro-reveal: 800ms;
+    --intro-cards: 500ms; /* cards inferiores: 500ms após o título e o card de apresentação */
+    --intro-after-cards: calc(var(--intro-cards) + var(--intro-reveal));
+    --intro-char: 60ms; /* máquina de escrever */
+    --intro-tag: 400ms;
+    --intro-tag-gap: 150ms;
+    --intro-slide: 80px;
+    --intro-tag-slide: 30px;
+  }
+
+  [data-intro='idle'] .intro-ltr {
+    opacity: 0;
+    transform: translateX(calc(var(--intro-slide) * -1));
+  }
+  [data-intro='idle'] .intro-rtl {
+    opacity: 0;
+    transform: translateX(var(--intro-slide));
+  }
+  [data-intro='idle'] .intro-up {
+    opacity: 0;
+    transform: translateY(var(--intro-slide));
+  }
+  [data-intro='idle'] .intro-tag {
+    opacity: 0;
+    transform: translateX(calc(var(--intro-tag-slide) * -1));
+  }
+  [data-intro='idle'] .intro-char {
+    opacity: 0;
+  }
+
+  [data-intro='run'] .intro-ltr {
+    animation: intro-ltr var(--intro-reveal) ease-out backwards;
+  }
+  [data-intro='run'] .intro-rtl {
+    animation: intro-rtl var(--intro-reveal) ease-out backwards;
+  }
+  [data-intro='run'] .intro-up {
+    animation: intro-up var(--intro-reveal) ease-out var(--intro-cards) backwards;
+  }
+  [data-intro='run'] .intro-tag {
+    animation: intro-tag var(--intro-tag) ease-out
+      calc(var(--intro-after-cards) + var(--i) * var(--intro-tag-gap)) backwards;
+  }
+  [data-intro='run'] .intro-char {
+    animation: intro-char 1ms step-end calc(var(--intro-after-cards) + var(--i) * var(--intro-char)) backwards;
+  }
+
+  /* sem "to": cada elemento desliza até a própria posição e opacidade normais */
+  @keyframes intro-ltr {
+    from {
+      opacity: 0;
+      transform: translateX(calc(var(--intro-slide) * -1));
+    }
+  }
+  @keyframes intro-rtl {
+    from {
+      opacity: 0;
+      transform: translateX(var(--intro-slide));
+    }
+  }
+  @keyframes intro-up {
+    from {
+      opacity: 0;
+      transform: translateY(var(--intro-slide));
+    }
+  }
+  @keyframes intro-tag {
+    from {
+      opacity: 0;
+      transform: translateX(calc(var(--intro-tag-slide) * -1));
+    }
+  }
+  @keyframes intro-char {
+    from,
+    to {
+      opacity: 0;
+    }
+  }
+}
+
+/* Logo "art" da topbar (ver LogoArt.tsx): letras = máscaras SVG pintadas por background-color */
+@layer components {
+  .logo-art {
+    --letter: #080b12;
+    position: relative;
+    display: block;
+    width: calc(var(--spacing) * 82.67);
+    height: calc(var(--spacing) * 32);
+    overflow: hidden;
+    container-type: inline-size;
+  }
+
+  .logo-art--dark {
+    --letter: #ecf76d;
+  }
+
+  .logo-art__letter {
+    position: absolute;
+    mask: var(--mask) center / 100% 100% no-repeat;
+    translate: 0 0;
+    transition:
+      translate 300ms ease-in,
+      background-color 300ms ease-in;
+  }
+
+  .logo-art__letter--current {
+    background-color: var(--letter);
+  }
+
+  .logo-art__letter--next {
+    background-color: #ecf76d;
+    translate: calc(var(--dx) * 100cqw / 62) calc(var(--dy) * 100cqw / 62);
+  }
+
+  :is(a:hover, a:focus-visible) > .logo-art .logo-art__letter {
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0, 0, 0.246, 1);
+  }
+
+  :is(a:hover, a:focus-visible) > .logo-art .logo-art__letter--current {
+    translate: calc(var(--dx) * 100cqw / 62) calc(var(--dy) * 100cqw / 62);
+  }
+
+  :is(a:hover, a:focus-visible) > .logo-art .logo-art__letter--next {
+    background-color: #2f8d00;
+    translate: 0 0;
+  }
+}
+
+@utility hover-overlay-on-dark {
+  transition: box-shadow 150ms ease;
+
+  &:hover {
+    box-shadow: inset 0 0 0 999px var(--color-action-hover-on-dark);
+  }
+}
