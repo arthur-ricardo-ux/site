@@ -34,6 +34,25 @@ const jobs = [
   { src: 'courses/coursera.png', out: 'course-coursera.webp', width: 112 },
   { src: 'courses/dataplus.png', out: 'course-dataplus.webp', width: 112 },
   { src: 'courses/bpm.png', out: 'course-bpm.webp', width: 112 },
+  // Página "Todos os projetos" (Figma 526:4954): fundos limpos (clean-project-backgrounds.mjs) e mockups
+  { src: 'projects/auditor-bg-clean.png', out: 'project-auditor-bg.webp' },
+  { src: 'projects/auditor-bg-mobile-clean.png', out: 'project-auditor-bg-mobile.webp' },
+  { src: 'projects/auditor-mockup.png', out: 'project-auditor-mockup.webp' },
+  { src: 'projects/lucro-bg-clean.png', out: 'project-lucro-bg.webp' },
+  { src: 'projects/lucro-bg-mobile-clean.png', out: 'project-lucro-bg-mobile.webp' },
+  { src: 'projects/lucro-mockup.png', out: 'project-lucro-mockup.webp' },
+  { src: 'projects/acessibilidade-bg-clean.png', out: 'project-acessibilidade-bg.webp' },
+  { src: 'projects/acessibilidade-bg-mobile-clean.png', out: 'project-acessibilidade-bg-mobile.webp' },
+  { src: 'projects/acessibilidade-mockup.png', out: 'project-acessibilidade-mockup.webp' },
+  { src: 'projects/reembolso-bg-clean.png', out: 'project-reembolso-bg.webp' },
+  { src: 'projects/reembolso-bg-mobile-clean.png', out: 'project-reembolso-bg-mobile.webp' },
+  { src: 'projects/reembolso-mockup.png', out: 'project-reembolso-mockup.webp', width: 1080 },
+  { src: 'projects/meuguru-bg-clean.png', out: 'project-meuguru-bg.webp' },
+  { src: 'projects/meuguru-bg-mobile-clean.png', out: 'project-meuguru-bg-mobile.webp' },
+  { src: 'projects/meuguru-mockup.png', out: 'project-meuguru-mockup.webp', width: 1240 },
+  { src: 'projects/reputacao-bg-clean.png', out: 'project-reputacao-bg.webp' },
+  { src: 'projects/reputacao-bg-mobile-clean.png', out: 'project-reputacao-bg-mobile.webp' },
+  { src: 'projects/reputacao-mockup.png', out: 'project-reputacao-mockup.webp' },
 ];
 
 await mkdir('src/assets/images', { recursive: true });

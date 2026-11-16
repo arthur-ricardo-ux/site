@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // Multi-page: cada estudo de caso é um HTML próprio (/agreement/), então a navegação a partir
 // da Home é um link real — a página nova sempre abre no topo e o "voltar" restaura a Home.
-const pages = { main: 'index.html', agreement: 'agreement/index.html' };
+const pages = { main: 'index.html', agreement: 'agreement/index.html', projetos: 'projetos/index.html' };
 
 /** /agreement → /agreement/ (sem isso o fallback de SPA do Vite serviria a Home) */
 const addTrailingSlash: Connect.NextHandleFunction = (req, res, next) => {

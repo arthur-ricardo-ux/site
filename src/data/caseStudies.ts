@@ -12,10 +12,16 @@ export type Box = { left: number; top: number; width: number; height: number };
 
 type Image = { src: string; alt: string; width: number; height: number };
 
+/**
+ * Ajustes opcionais da imagem (cards de "Todos os projetos", Figma 526:4954): `crop` posiciona a imagem em %
+ * da caixa (recorte do Figma), `rotate` gira a caixa em graus e `mask` aplica uma máscara de alfa (SVG).
+ */
+type ImageAdjust = { crop?: Box; rotate?: number; mask?: string };
+
 export type CaseStudyMedia =
   /** Laptop do Figma com o vídeo do estudo de caso na tela */
   | { kind: 'laptop-video'; box: Box }
-  | { kind: 'image'; box: Box; image: Image }
+  | ({ kind: 'image'; box: Box; image: Image } & ImageAdjust)
   /** Composição do Art DS + logo "art" (box do logo relativo à composição) */
   | { kind: 'composition'; box: Box; image: Image; logo: { src: string; box: Box } };
 
@@ -26,10 +32,15 @@ export type CaseStudy = {
   /** Cor do título em destaque, do contorno do botão e do botão preenchido (hover) */
   accent: string;
   eyebrow: string;
-  /** Trechos do título; `accent` pinta o trecho com a cor do projeto */
-  title: { text: string; accent?: boolean }[];
+  /** Trechos do título; `accent` pinta o trecho com a cor do projeto; `lineBreak` quebra a linha antes */
+  title: { text: string; accent?: boolean; lineBreak?: boolean }[];
   description: string;
   cta: string;
+  /** Ícone do botão: seta (estudo de caso) ou cadeado ("Em breve"). Padrão: seta */
+  ctaIcon?: 'arrow' | 'padlock';
+  /** Larguras do título e da descrição no card de 1024px (padrão 421 e 410) */
+  titleWidth?: number;
+  descriptionWidth?: number;
   /** Margem do texto até a borda externa do card (px) */
   inset: number;
   background: { src: string; box: Box };
@@ -38,10 +49,15 @@ export type CaseStudy = {
   mobile: {
     /** Espaço entre o bloco do título e o da descrição */
     textGap: number;
-    /** Fundo em px a partir do canto do card; sem `box`, cobre o card inteiro */
-    background: { src: string; box?: Box };
+    /** Linha de apoio quebrada depois do "•" (Agreement e GuruDrive) */
+    eyebrowBreak?: boolean;
+    /**
+     * Fundo em px a partir do canto do card; sem `box`, cobre o card inteiro, alinhado ao topo (padrão)
+     * ou à base (`anchor: 'bottom'`)
+     */
+    background: { src: string; box?: Box; anchor?: 'bottom' };
     /** Quadro da mídia (largura = conteúdo do card) e, dentro dele, as caixas da imagem e do logo */
-    media?: { width: number; height: number; image: Box; logo?: { src: string; box: Box } };
+    media?: { width: number; height: number; image: Box; mask?: string; logo?: { src: string; box: Box } };
   };
 };
 
@@ -61,6 +77,7 @@ export const caseStudies: CaseStudy[] = [
     media: { kind: 'laptop-video', box: { left: 454, top: 102, width: 775, height: 382.152 } },
     mobile: {
       textGap: 32,
+      eyebrowBreak: true,
       background: { src: agreementBg, box: { left: -381.5, top: -8, width: 1445.003, height: 766.137 } },
     },
   },
@@ -72,7 +89,8 @@ export const caseStudies: CaseStudy[] = [
     title: [{ text: 'GuruDrive: ' }, { text: 'Indexação de materiais universitários', accent: true }],
     description:
       'O produto de armazenamento de arquivos que permite alunos de todo o país encontrem materiais de estudo, como: atividades resolvidas, provas, trabalhos, livros e muito mais, diretamente da sua universidade e curso.',
-    cta: 'Ver mais',
+    cta: 'Em breve',
+    ctaIcon: 'padlock',
     inset: 56,
     background: { src: gurudriveBg, box: { left: -144, top: -4, width: 1536, height: 1024 } },
     media: {
@@ -87,6 +105,7 @@ export const caseStudies: CaseStudy[] = [
     },
     mobile: {
       textGap: 24,
+      eyebrowBreak: true,
       background: { src: gurudriveBg, box: { left: -536, top: -5, width: 1509, height: 1006 } },
       media: { width: 308, height: 218, image: { left: 0, top: -12.99, width: 308, height: 230.99 } },
     },
@@ -99,7 +118,8 @@ export const caseStudies: CaseStudy[] = [
     title: [{ text: 'Art Design System:', accent: true }, { text: ' Criado do zero para se adaptar a qualquer marca' }],
     description:
       'Como construí um Design System com Server-Driven UI, critérios de acessibilidade da WCAG e uma arquitetura preparada para fluxos com IA e MCP.',
-    cta: 'Ver mais',
+    cta: 'Em breve',
+    ctaIcon: 'padlock',
     inset: 56,
     background: { src: artdsDotGrid, box: { left: 0, top: 0, width: 1024, height: 540 } },
     media: {

@@ -7,7 +7,7 @@ import { cn } from '../utils';
 /**
  * Componente "Logo animação" (Figma 453:3556), em unidades do quadro de 62×24 (exibido a 82,67×32).
  * Hover (Smart Animate): as letras atuais saem do quadro e as de reserva (b1–b3) entram, passando
- * de amarelo a verde — 400ms cubic-bezier(0, 0, 0.246, 1); ao sair, volta em 300ms ease-in.
+ * de amarelo a #c9f255 — 400ms cubic-bezier(0, 0, 0.246, 1); ao sair, volta em 300ms ease-in.
  */
 const letters = [
   // [máscara, x, y, largura, altura, deslocamento no hover (a) / fora do quadro (b)]

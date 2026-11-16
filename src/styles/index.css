@@ -361,7 +361,7 @@
   }
 
   :is(a:hover, a:focus-visible) > .logo-art .logo-art__letter--next {
-    background-color: #2f8d00;
+    background-color: #c9f255;
     translate: 0 0;
   }
 }

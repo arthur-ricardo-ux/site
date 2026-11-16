@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import arrowUpRight from '../assets/icons/arrow-up-right-dark.svg';
+import padlock from '../assets/icons/padlock-square.svg';
 import laptopKeyboard from '../assets/images/case-agreement-keyboard.webp';
 import laptopKeyboardMobile from '../assets/images/case-agreement-keyboard-mobile.webp';
 import { videos } from '../data/agreement';
@@ -29,11 +30,12 @@ const MOBILE = '(width < 48rem)';
  * - md+ (tablet e desktop): composição de 1024×540 do Figma; --spacing = largura do card / 1024, então tudo escala junto.
  * - < md: composição mobile do Figma (593:6039–6041), centralizada; só classes max-md: e os dados `mobile`.
  * Hover: o card encolhe para 98% e o botão passa à variante preenchida (300ms ease-in-out).
+ * Também desenha os cards de "Todos os projetos" (Figma 526:4954), com os campos opcionais do tipo.
  */
 export function CaseStudyCard({ study, eager = false }: { study: CaseStudy; eager?: boolean }) {
   const { media, mobile } = study;
   const mobileBg = mobile.background.box;
-  const [eyebrowLead, eyebrowRest] = study.eyebrow.split(' • ');
+  const [eyebrowLead, eyebrowRest] = mobile.eyebrowBreak ? study.eyebrow.split(' • ') : [study.eyebrow];
 
   return (
     <a
@@ -46,6 +48,8 @@ export function CaseStudyCard({ study, eager = false }: { study: CaseStudy; eage
           {
             '--accent': study.accent,
             '--inset': u(study.inset),
+            '--title-w': u(study.titleWidth ?? 421),
+            '--desc-w': u(study.descriptionWidth ?? 410),
             ...boxVars('bg', study.background.box),
             ...boxVars('m', media.box),
             '--text-gap': `${mobile.textGap}px`,
@@ -67,7 +71,9 @@ export function CaseStudyCard({ study, eager = false }: { study: CaseStudy; eage
               mobileBg
                 ? // cobre o card mesmo quando o texto quebra em mais linhas
                   'max-md:inset-auto max-md:top-(--mbg-t) max-md:left-(--mbg-l) max-md:h-[max(var(--mbg-h),calc(100%_-_var(--mbg-t)))] max-md:w-(--mbg-w)'
-                : 'max-md:object-left-top',
+                : mobile.background.anchor === 'bottom'
+                  ? 'max-md:object-bottom'
+                  : 'max-md:object-left-top',
             )}
           />
         </picture>
@@ -85,24 +91,26 @@ export function CaseStudyCard({ study, eager = false }: { study: CaseStudy; eage
             </p>
             <div className="h-2 w-full bg-content-tertiary" />
           </div>
-          <h3 className="font-archivo text-28 leading-36 font-bold max-md:text-32 max-md:leading-44 md:w-421 md:text-34 md:leading-44">
+          <h3 className="font-archivo text-28 leading-36 font-bold max-md:text-32 max-md:leading-44 md:w-(--title-w) md:text-34 md:leading-44">
             {study.title.map((part) => (
               <span key={part.text} className={cn(part.accent && 'text-(--accent)')}>
+                {part.lineBreak && <br />}
                 {part.text}
               </span>
             ))}
           </h3>
         </div>
 
-        <div className="relative mt-24 flex flex-col items-start gap-32 max-md:mt-(--text-gap) max-md:items-center md:absolute md:bottom-(--inset) md:left-(--inset) md:mt-0 md:w-410">
+        <div className="relative mt-24 flex flex-col items-start gap-32 max-md:mt-(--text-gap) max-md:items-center md:absolute md:bottom-(--inset) md:left-(--inset) md:mt-0 md:w-(--desc-w)">
           <p className="font-archivo text-16 leading-24">{study.description}</p>
           <span className="flex items-center gap-4 rounded-[50px] py-[calc(var(--spacing)*9.5)] pr-[calc(var(--spacing)*21.5)] pl-[calc(var(--spacing)*25.5)] font-condensed text-16 leading-24 font-semibold whitespace-nowrap text-(--accent) shadow-[inset_0_0_0_calc(var(--spacing)*1.5)_var(--accent)] backdrop-blur-[2.5px] transition-colors duration-300 ease-in-out group-hover:bg-(--accent) group-hover:text-content-primary group-focus-visible:bg-(--accent) group-focus-visible:text-content-primary">
             {study.cta}
-            <span
-              aria-hidden="true"
-              className="size-24 shrink-0 bg-current"
-              style={{ mask: `url("${arrowUpRight}") center / 100% 100% no-repeat` }}
-            />
+            <span aria-hidden="true" className="flex size-24 shrink-0 items-center justify-center">
+              <span
+                className={cn('bg-current', study.ctaIcon === 'padlock' ? 'size-16' : 'size-24')}
+                style={{ mask: `url("${study.ctaIcon === 'padlock' ? padlock : arrowUpRight}") center / 100% 100% no-repeat` }}
+              />
+            </span>
           </span>
         </div>
 
@@ -124,6 +132,7 @@ function Media({ media, mobile, eager }: { media: CaseStudyMedia; mobile: Mobile
     '--mratio': mobile ? `${mobile.width} / ${mobile.height}` : `${media.box.width} / ${media.box.height}`,
     ...(mobile && pctVars('mi', mobile.image, mobile)),
   } as CSSProperties;
+  const adjust = media.kind === 'image' ? media : undefined;
 
   if (media.kind === 'laptop-video') {
     return (
@@ -133,19 +142,36 @@ function Media({ media, mobile, eager }: { media: CaseStudyMedia; mobile: Mobile
     );
   }
 
+  const { crop, rotate, mask } = adjust ?? {};
+  const mobileMask = mobile?.mask ?? mask;
+  // caixa da imagem: o quadro inteiro no desktop; no mobile, a caixa do frame mobile (em %)
   const image = (
-    <img
-      src={media.image.src}
-      alt={media.image.alt}
-      width={media.image.width}
-      height={media.image.height}
-      draggable={false}
-      loading={eager ? 'eager' : 'lazy'}
+    <div
       className={cn(
-        'pointer-events-none absolute inset-0 size-full max-w-none object-cover',
+        'pointer-events-none absolute inset-0',
         mobile && 'max-md:inset-auto max-md:top-(--mi-t) max-md:left-(--mi-l) max-md:h-(--mi-h) max-md:w-(--mi-w)',
+        crop && 'overflow-hidden',
+        mask && '[mask-size:100%_100%] [mask-repeat:no-repeat] [mask-image:var(--mask)] max-md:[mask-image:var(--mask-m)]',
       )}
-    />
+      style={
+        {
+          rotate: rotate ? `${rotate}deg` : undefined,
+          '--mask': mask && `url("${mask}")`,
+          '--mask-m': mobileMask && `url("${mobileMask}")`,
+        } as CSSProperties
+      }
+    >
+      <img
+        src={media.image.src}
+        alt={media.image.alt}
+        width={media.image.width}
+        height={media.image.height}
+        draggable={false}
+        loading={eager ? 'eager' : 'lazy'}
+        className={cn('absolute max-w-none', crop ? '' : 'inset-0 size-full object-cover')}
+        style={crop && { left: `${crop.left}%`, top: `${crop.top}%`, width: `${crop.width}%`, height: `${crop.height}%` }}
+      />
+    </div>
   );
 
   if (media.kind === 'image') {
